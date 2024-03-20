@@ -5,8 +5,13 @@ const dotenv=require('dotenv')
 dotenv.config()
 const connectionURL = process.env.MONGODB_CONNECTION_STRING;
 const port=process.env.PORT || 5000
+const cors= require('cors')
+const bodyParser= require('body-parser')
 
+app.use(cors())
 app.use(express.json());
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended:false}))
 
 mongoose.connect(connectionURL).then(()=>
     {
@@ -17,4 +22,4 @@ mongoose.connect(connectionURL).then(()=>
     }).catch((error)=>console.log(error));
 
 app.use("/farmers",require("./routes/farmer-routes"));
-app.use("/users",require("./routes/farmer-routes"));
+app.use("/users",require("./routes/user-routes"));

@@ -10,7 +10,7 @@ const loginUtility = async (req, res) => {
     try {
         if ((req.body.type == "user" && req.baseUrl == users_burl) || 
         (req.body.type == "farmer" && req.baseUrl == farmers_burl)) {
-            let userData = await LoginModel.find({ email_id: req.body.emailId, password: req.body.password }).select('email_id password type');
+            let userData = await LoginModel.find({ email_id: req.body.emailId, password: req.body.password, type:req.body.type }).select('email_id password type');
             userData = (userData.length > 0) ? JSON.parse(JSON.stringify(userData)) : [];
             if (userData.length > 0 && userData[0].email_id && userData[0].password && userData[0].type) {
                 const hash = await bcrypt.hash(userData[0].password, Number(saltRounds));
@@ -20,11 +20,8 @@ const loginUtility = async (req, res) => {
                 else
                     res.status(401).send(false);
             }
-            else if (userData.length > 0 && userData[0].type != "farmer") {
-                res.status(401).send(false);
-            }
             else {
-                res.status(404).send("Data not present")
+                res.status(401).send(false)
             }
         }
         else{

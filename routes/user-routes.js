@@ -3,7 +3,7 @@ const router=express.Router()
 const {loginUtility}=require('../utilities/login-utility')
 
 
-router.get('/login',loginUtility)
+router.post('/login',loginUtility)
 
 
 module.exports=router;
