@@ -33,4 +33,25 @@ const loginUtility = async (req, res) => {
     }
 }
 
-module.exports = { loginUtility }
+    const signUpUtility= async(req,res)=>{
+        try{
+            if ((req.body.type == "user" && req.baseUrl == users_burl) || 
+        (req.body.type == "farmer" && req.baseUrl == farmers_burl)){
+            let signUpData={
+                "name":req.body.username,
+                "email_id":req.body.email_id,
+                "password":req.body.password,
+                "type":"user"
+            }
+            await LoginModel.save(signUpData)
+        }
+        else{
+            res.status(401).send("Unauthorized!!!")
+        }
+        }
+        catch(error){
+            console.log(error)
+        }
+    }
+
+module.exports = { loginUtility,signUpUtility }
